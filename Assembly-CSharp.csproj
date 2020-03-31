@@ -65,9 +65,10 @@
   <ItemGroup>
     <Compile Include="Assets\CameraControl.cs" />
     <Compile Include="Assets\PlayerMovement.cs" />
-    <Compile Include="Assets\Scripts\GameGrid.cs" />
-    <Compile Include="Assets\Scripts\Nodes.cs" />
-    <Compile Include="Assets\Scripts\Pathfinding.cs" />
+    <Compile Include="Assets\Scripts\AStarPathfinding\GameGrid.cs" />
+    <Compile Include="Assets\Scripts\AStarPathfinding\Heap.cs" />
+    <Compile Include="Assets\Scripts\AStarPathfinding\Nodes.cs" />
+    <Compile Include="Assets\Scripts\AStarPathfinding\Pathfinding.cs" />
     <Compile Include="Assets\SheepControl.cs" />
     <Compile Include="Assets\Village\LowPoly\Medieval\Village\Scripts\ContainerOpener.cs" />
     <Compile Include="Assets\Village\LowPoly\Medieval\Village\Scripts\InfiniteRotator.cs" />

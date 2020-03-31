@@ -9,6 +9,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Diagnostics;
 
 public class Pathfinding : MonoBehaviour
 {
@@ -33,8 +34,8 @@ public class Pathfinding : MonoBehaviour
         Nodes startNode = grid.NodesFromWorld(startPosition);
         Nodes targetNode = grid.NodesFromWorld(targetPosition);
 
-        // Create list of nodes for openSet nodes - nodes that are to evaluated
-        List<Nodes> openSet = new List<Nodes>();
+        // Create heap of nodes for openSet nodes - nodes that are to evaluated
+        Heap<Nodes> openSet = new Heap<Nodes>(grid.MaxSize);
         // Create HashSet closedSet of nodes - nodes that are already evaluated
         HashSet<Nodes> closedSet = new HashSet<Nodes>();
         // Add startNode to openSet
@@ -44,23 +45,8 @@ public class Pathfinding : MonoBehaviour
         while (openSet.Count > 0)
         {
             // currentNode is equal to the first element of the openSet
-            Nodes currentNode = openSet[0];
+            Nodes currentNode = openSet.RemoveFirstItem();
 
-            // Loop all the nodes in the openSet
-            for (int i = 0; i < openSet.Count; i++)
-            {
-                // If openSet F cost is less than currentNode F cost 
-                // or if the openSet F cost is equal to currentNode F cost & openSet H cost is less than currentNode H cost
-                // then set the currentNode then equals that node
-                if (openSet[i].F_cost < currentNode.F_cost || openSet[i].F_cost == currentNode.F_cost && openSet[i].H_cost < currentNode.H_cost)
-                {
-                    currentNode = openSet[i];
-                }
-            }
-
-            // Remove currentNode from openSet
-            openSet.Remove(currentNode);
-            // Add currentNode to closedSet
             closedSet.Add(currentNode);
 
             // If currentNode equals targetNode then the path is found
@@ -116,7 +102,6 @@ public class Pathfinding : MonoBehaviour
         path.Reverse();
 
         grid.path = path;
-
     }
 
 
