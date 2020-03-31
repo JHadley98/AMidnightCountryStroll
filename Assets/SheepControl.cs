@@ -6,10 +6,16 @@ public class SheepControl : MonoBehaviour
 {
     public Transform Player;
 
+
+    
     public int FlockAffectDistance;
-    public bool ActiveSeparation;
     public bool ActiveAlignment;
     public bool ActiveCohesion;
+    [Range(0, 10)]
+    public int MinCohesionDist;
+    public bool ActiveSeparation;
+    [Range(1, 10)]
+    public int SeparationStrength;
 
     Vector3 Velocity;
     Vector3 Acceleration;
@@ -33,6 +39,15 @@ public class SheepControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            SeparationStrength++;
+        }
+        if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            SeparationStrength--;
+        }
+
         Acceleration = Vector3.zero;
         if(!Alerted)
         {
@@ -42,11 +57,12 @@ public class SheepControl : MonoBehaviour
         }
         else
         {
-            print(transform.position);
             Vector3 SeparationEffect = Vector3.zero;
             Vector3 AlignmentEffect = Vector3.zero;
             Vector3 CohesionEffect = Vector3.zero;
             int NumAffecting = -1;
+            
+
             foreach (GameObject thisSheep in Sheep)
             {
                 if ((thisSheep.transform.position - transform.position).magnitude < FlockAffectDistance)
@@ -56,53 +72,55 @@ public class SheepControl : MonoBehaviour
                         otherSheepControl.Alerted = true;
                         
 
-                    CohesionEffect += thisSheep.transform.position;
+                    CohesionEffect += new Vector3(thisSheep.transform.position.x, 0, thisSheep.transform.position.z);
+                    
                     NumAffecting++;
+                    
 
+                    //Separation Code Begins
                     if((thisSheep.transform.position - transform.position).magnitude < CrowdRadius && (thisSheep.transform.position - transform.position).magnitude > 0)
                     {
                         Vector3 Difference = transform.position - thisSheep.transform.position;
+
                         Difference.Normalize();
-                        Difference /= (thisSheep.transform.position - transform.position).magnitude;
+                        Difference /= (thisSheep.transform.position - transform.position).magnitude * (thisSheep.transform.position - transform.position).magnitude;
                         SeparationEffect += Difference;
+
                     }
+                    //Separation Code Ends
 
                     AlignmentEffect += new Vector3(thisSheep.transform.forward.x, 0, thisSheep.transform.forward.z);
                 }
 
             }
-
             if (ActiveCohesion)
             {
-                CohesionEffect -= transform.position;
-                CohesionEffect = (CohesionEffect / NumAffecting) ;
-                Acceleration += HeadToward(CohesionEffect);
+                //CohesionEffect -= transform.position;
+
+                CohesionEffect = (CohesionEffect / NumAffecting);
+                if((CohesionEffect - transform.position).magnitude > MinCohesionDist)
+                    Acceleration += (CohesionEffect - transform.position);
             }
             if (ActiveSeparation)
             {
-                Acceleration += HeadToward(SeparationEffect);
+                Acceleration += SeparationEffect * SeparationStrength;
             }
             if(ActiveAlignment)
             {
-                AlignmentEffect /= NumAffecting;
-                Acceleration += HeadToward(AlignmentEffect);
+                //AlignmentEffect /= NumAffecting;
+                Acceleration += (AlignmentEffect.normalized - Acceleration);
             }
 
-            Velocity += Acceleration.normalized * Time.deltaTime;
-            Forward = Velocity.normalized;
-            Velocity *= Speed;
+            Velocity = Acceleration.normalized;
+            Velocity.y = 0;
+            if(Velocity != Vector3.zero)
+                Forward = Velocity.normalized;
             transform.forward = Forward;
-            transform.position += Velocity * Time.deltaTime;
+            transform.position += Forward * Speed * Time.deltaTime;
         }
         
 
 
-    }
-
-    Vector3 HeadToward(Vector3 vector)
-    {
-        Vector3 updatedVector = vector.normalized * Speed - Velocity;
-        return Vector3.ClampMagnitude(updatedVector, 10);
     }
 
     
