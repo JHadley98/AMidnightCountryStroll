@@ -52,7 +52,7 @@ public class SheepControl : MonoBehaviour
         if(!Alerted)
         {
             //Makes sheep look at player while unalerted
-            transform.rotation = Quaternion.LookRotation(Player.transform.position - transform.position, Vector3.up);
+            //transform.rotation = Quaternion.LookRotation(Player.transform.position - transform.position, Vector3.up);
 
             //Detect when a player alerts the sheep
             if ((Player.position - transform.position).magnitude <= AlertDistance)
@@ -117,10 +117,12 @@ public class SheepControl : MonoBehaviour
             if(ActiveAlignment)
             {
                 AlignmentEffect /= NumAffecting;
-                Acceleration += (AlignmentEffect - Acceleration)/2;
+                if((AlignmentEffect.normalized - Forward.normalized).magnitude > 0.1)
+                    Acceleration += (AlignmentEffect - Acceleration)/2;
             }
 
-            Velocity = Acceleration.normalized;
+            Velocity += Acceleration.normalized;
+            Velocity = Velocity.normalized * 5;
             Velocity.y = 0;
             if(Velocity != Vector3.zero)
                 Forward = Velocity.normalized;
