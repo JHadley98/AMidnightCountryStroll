@@ -32,7 +32,7 @@ public class SheepControl : MonoBehaviour
     void Start()
     {
         Sheep = GameObject.FindGameObjectsWithTag("Sheep");
-        print(Sheep.Length);
+        //print(Sheep.Length);
         Forward = transform.forward;
     }
 
@@ -51,38 +51,47 @@ public class SheepControl : MonoBehaviour
         Acceleration = Vector3.zero;
         if(!Alerted)
         {
-            //transform.rotation = Quaternion.LookRotation(Player.transform.position - transform.position, Vector3.up);
+            //Makes sheep look at player while unalerted
+            transform.rotation = Quaternion.LookRotation(Player.transform.position - transform.position, Vector3.up);
+
+            //Detect when a player alerts the sheep
             if ((Player.position - transform.position).magnitude <= AlertDistance)
                 Alerted = true;
         }
         else
         {
+            //Resetting flocking effects
             Vector3 SeparationEffect = Vector3.zero;
             Vector3 AlignmentEffect = Vector3.zero;
             Vector3 CohesionEffect = Vector3.zero;
-            int NumAffecting = -1;
+            int NumAffecting = 0;
             
-
+            
             foreach (GameObject thisSheep in Sheep)
             {
+                //Check to see that sheep the current sheep in the loop is within the effecting range of this sheep
                 if ((thisSheep.transform.position - transform.position).magnitude < FlockAffectDistance)
                 {
                     SheepControl otherSheepControl = thisSheep.GetComponent<SheepControl>();
+                    //Alerting other sheep if it was not before
                     if (Alerted && !otherSheepControl.Alerted)
                         otherSheepControl.Alerted = true;
                         
-
+                    //Collecting current sheeps position data to find the average/mid position of the effecting sheep
                     CohesionEffect += new Vector3(thisSheep.transform.position.x, 0, thisSheep.transform.position.z);
                     
+                    //Keep track of how many sheep are effecting this sheep
                     NumAffecting++;
                     
 
                     //Separation Code Begins
                     if((thisSheep.transform.position - transform.position).magnitude < CrowdRadius && (thisSheep.transform.position - transform.position).magnitude > 0)
                     {
+                        //Calculating the difference in position of this and the current loop sheep
                         Vector3 Difference = transform.position - thisSheep.transform.position;
 
                         Difference.Normalize();
+                        //Dividing the difference by the squared distance between the 2 sheep so the separation effect will be greater when theyre closer together
                         Difference /= (thisSheep.transform.position - transform.position).magnitude * (thisSheep.transform.position - transform.position).magnitude;
                         SeparationEffect += Difference;
 
@@ -98,7 +107,7 @@ public class SheepControl : MonoBehaviour
                 //CohesionEffect -= transform.position;
 
                 CohesionEffect = (CohesionEffect / NumAffecting);
-                if((CohesionEffect - transform.position).magnitude > MinCohesionDist)
+                if ((CohesionEffect - transform.position).magnitude > MinCohesionDist)
                     Acceleration += (CohesionEffect - transform.position);
             }
             if (ActiveSeparation)
@@ -107,8 +116,8 @@ public class SheepControl : MonoBehaviour
             }
             if(ActiveAlignment)
             {
-                //AlignmentEffect /= NumAffecting;
-                Acceleration += (AlignmentEffect.normalized - Acceleration);
+                AlignmentEffect /= NumAffecting;
+                Acceleration += (AlignmentEffect - Acceleration)/2;
             }
 
             Velocity = Acceleration.normalized;
