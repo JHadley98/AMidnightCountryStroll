@@ -1,21 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class AStarPathFinding : MonoBehaviour
 {
-    public Transform sheep, player;
+    GridMap _gridMap;
 
-    private GridMap _gridMap;
-
-    private void Awake()
+    void Awake()
     {
         _gridMap = GetComponent<GridMap>();
-    }
-
-    private void Update()
-    {
-        List<Node> Positions = FindAStarPath(sheep.position, player.position);
     }
 
     public List<Node> FindAStarPath(Vector3 startPosition, Vector3 destination)
@@ -28,6 +20,18 @@ public class AStarPathFinding : MonoBehaviour
 
         openSet.Add(startNode);
 
+        // If player is in a place that is not walkable then return a set with just the startNode, so sheep don't move
+        if (!destinationNode._walkable)
+        {
+            return openSet;
+        }
+
+        // If sheep is very close to player then no need to move towards the player.
+        if (Vector3.Distance(startPosition, destination) < 3.0f)
+        {
+            return openSet;
+        }
+
         while (openSet.Count > 0)
         {
             // Set currentNode to be the first element in the openSet
@@ -36,7 +40,7 @@ public class AStarPathFinding : MonoBehaviour
             // Loop through all nodes in openSet
             for (int i = 1; i < openSet.Count; i++)
             {
-                if (openSet[i].FCost < currentNode.FCost || openSet[i].FCost == currentNode.FCost && openSet[i]._hCost < currentNode._hCost)
+                if (openSet[i].GetFCost() < currentNode.GetFCost() || openSet[i].GetFCost() == currentNode.GetFCost() && openSet[i]._hCost < currentNode._hCost)
                 {
                     currentNode = openSet[i];
                 }
@@ -45,6 +49,7 @@ public class AStarPathFinding : MonoBehaviour
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
 
+            // If currentNode equals destinationNode return current path
             if (currentNode == destinationNode)
             {
                 return RetracePath(startNode, destinationNode);
@@ -77,7 +82,9 @@ public class AStarPathFinding : MonoBehaviour
                 }
             }
         }
-        return null;
+        // If all possible paths checked and cannot be reached then return a path which is just the start point, so that sheep don't move
+        openSet.Add(startNode);
+        return openSet;
     }
 
     // RetracePath function used to find the path between the nodes
@@ -95,8 +102,12 @@ public class AStarPathFinding : MonoBehaviour
 
         path.Reverse();
 
-        // Draw path to scene
-        _gridMap.path = path;
+        Vector3 prevPos = path[0]._mapPosition;
+        foreach (Node nextNode in path)
+        {
+            Debug.DrawLine(prevPos, nextNode._mapPosition, Color.blue);
+            prevPos = nextNode._mapPosition;
+        }
 
         return path;
     }

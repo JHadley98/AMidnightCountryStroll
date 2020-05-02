@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GridMap : MonoBehaviour
@@ -33,7 +32,7 @@ public class GridMap : MonoBehaviour
                 // Get each point a node will occupy in the world
                 Vector3 worldPoint = bottomLeft + Vector3.right * (x * _nodeSize + (_nodeSize / 2)) + Vector3.forward * (y * _nodeSize + (_nodeSize / 2));
                 // Collision check
-                bool walkable = !(Physics2D.CircleCast(worldPoint, (_nodeSize / 2), Vector3.forward, (_nodeSize / 2), _obstacle));
+                bool walkable = !Physics.CheckSphere(worldPoint, _nodeSize / 2, _obstacle);
                 // Create new node
                 _gridMap[x, y] = new Node(walkable, worldPoint, x, y);
             }
@@ -59,7 +58,7 @@ public class GridMap : MonoBehaviour
                 int neighbourY = node._gridPositionY + y;
 
                 // Check if neighbour is in grid
-                if (neighbourX >= 0 && neighbourX < _gridSizeX && neighbourY >= 0 && neighbourY< _gridSizeY)
+                if (neighbourX >= 0 && neighbourX < _gridSizeX && neighbourY >= 0 && neighbourY < _gridSizeY)
                 {
                     neighbouringNodes.Add(_gridMap[neighbourX, neighbourY]);
                 }
@@ -86,6 +85,7 @@ public class GridMap : MonoBehaviour
         return _gridMap[x, y];
     }
 
+    // List of nodes used for visulising path in gizmos
     public List<Node> path;
     private void OnDrawGizmos()
     {
@@ -95,13 +95,13 @@ public class GridMap : MonoBehaviour
         {
             foreach (Node node in _gridMap)
             {
-                Gizmos.color = (node._walkable) ? Color.white : Color.red;
+                Gizmos.color = node._walkable ? Color.white : Color.red;
 
                 // Display path between sheep and play in scene
                 if (path != null)
                 {
                     // If path contains in the node then colour path black
-                    if(path.Contains(node))
+                    if (path.Contains(node))
                     {
                         Gizmos.color = Color.black;
                     }

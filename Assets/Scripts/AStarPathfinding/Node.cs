@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Node
 {
@@ -14,7 +12,10 @@ public class Node
     public int _gridPositionX, _gridPositionY;
 
     // Calculate f cost
-    public int FCost => _gCost + _hCost;
+    public int GetFCost()
+    {
+        return _gCost + _hCost;
+    }
 
     // Node constructor
     public Node(bool walkable, Vector3 mapPosition, int x, int y)
