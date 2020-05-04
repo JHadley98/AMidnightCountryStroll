@@ -85,7 +85,7 @@ public class GridMap : MonoBehaviour
         return _gridMap[x, y];
     }
 
-    // List of nodes used for visulising path in gizmos
+    // List of nodes used for visualising path in gizmos
     public List<Node> path;
     private void OnDrawGizmos()
     {
@@ -96,17 +96,6 @@ public class GridMap : MonoBehaviour
             foreach (Node node in _gridMap)
             {
                 Gizmos.color = node._walkable ? Color.white : Color.red;
-
-                // Display path between sheep and play in scene
-                if (path != null)
-                {
-                    // If path contains in the node then colour path black
-                    if (path.Contains(node))
-                    {
-                        Gizmos.color = Color.black;
-                    }
-                }
-
                 Gizmos.DrawCube(node._mapPosition, Vector3.one * (_nodeSize - 0.1f));
             }
         }

@@ -112,17 +112,12 @@ public class AStarPathFinding : MonoBehaviour
         return path;
     }
 
-    // Get distance between any 2 given nodes
+    // Get distance between any 2 given nodes (times 100 to allow for decimal values as result is an int)
     private int GetDistance(Node firstNode, Node secondNode)
     {
         int distX = Mathf.Abs(firstNode._gridPositionX - secondNode._gridPositionX);
         int distY = Mathf.Abs(firstNode._gridPositionY - secondNode._gridPositionY);
 
-        if (distX > distY)
-        {
-            return (4 * distY) + (10 * distX);
-        }
-
-        return (4 * distX) + (10 * distY);
+        return (int)(Mathf.Sqrt((distX * distX) + (distY * distY)) * 100);
     }
 }
