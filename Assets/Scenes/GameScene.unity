@@ -1229,6 +1229,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sheep (1) Variant (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7093555497452269016, guid: d06d00a76b591ce4fb7f161b40d04914,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7093555497452269020, guid: d06d00a76b591ce4fb7f161b40d04914,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1318,6 +1323,11 @@ PrefabInstance:
         type: 3}
       propertyPath: CrowdRadius
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093555497452269017, guid: d06d00a76b591ce4fb7f161b40d04914,
+        type: 3}
+      propertyPath: MinCohesionDist
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d06d00a76b591ce4fb7f161b40d04914, type: 3}
@@ -3101,6 +3111,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sheep (1) Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7093555497452269016, guid: d06d00a76b591ce4fb7f161b40d04914,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7093555497452269020, guid: d06d00a76b591ce4fb7f161b40d04914,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3190,6 +3205,11 @@ PrefabInstance:
         type: 3}
       propertyPath: CrowdRadius
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093555497452269017, guid: d06d00a76b591ce4fb7f161b40d04914,
+        type: 3}
+      propertyPath: MinCohesionDist
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d06d00a76b591ce4fb7f161b40d04914, type: 3}
@@ -4185,6 +4205,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sheep (1) Variant (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7093555497452269016, guid: d06d00a76b591ce4fb7f161b40d04914,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7093555497452269020, guid: d06d00a76b591ce4fb7f161b40d04914,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4274,6 +4299,11 @@ PrefabInstance:
         type: 3}
       propertyPath: CrowdRadius
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093555497452269017, guid: d06d00a76b591ce4fb7f161b40d04914,
+        type: 3}
+      propertyPath: MinCohesionDist
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d06d00a76b591ce4fb7f161b40d04914, type: 3}
@@ -4378,6 +4408,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sheep (1) Variant (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7093555497452269016, guid: d06d00a76b591ce4fb7f161b40d04914,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7093555497452269020, guid: d06d00a76b591ce4fb7f161b40d04914,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4467,6 +4502,11 @@ PrefabInstance:
         type: 3}
       propertyPath: CrowdRadius
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7093555497452269017, guid: d06d00a76b591ce4fb7f161b40d04914,
+        type: 3}
+      propertyPath: MinCohesionDist
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d06d00a76b591ce4fb7f161b40d04914, type: 3}
