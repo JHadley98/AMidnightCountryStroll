@@ -142,7 +142,14 @@ public class SheepControl : MonoBehaviour
                 }
             }
 
-            Velocity += Acceleration.normalized;
+            // Move sheep towards the first point on the path. 
+            // This is always the first point as the path gets recalculated each frame.
+            Vector3 pathVector = PathToFollow[0]._mapPosition - transform.position;
+            pathVector = pathVector.normalized;
+            // Update position a long pathfinding route
+           // transform.position += pathVector * Speed * Time.deltaTime;
+
+            Velocity += Acceleration.normalized + pathVector;
             Velocity = Velocity.normalized * 5;
             Velocity.y = 0;
             if (Velocity != Vector3.zero)
@@ -150,14 +157,9 @@ public class SheepControl : MonoBehaviour
                 Forward = Velocity.normalized;
             }
             transform.forward = Forward;
-            //transform.position += Forward * Speed * Time.deltaTime;
+            transform.position += Forward * Speed * Time.deltaTime;
 
-            // Move sheep towards the first point on the path. 
-            // This is always the first point as the path gets recalculated each frame.
-            Vector3 pathVector = PathToFollow[0]._mapPosition - transform.position;
-            pathVector = pathVector.normalized;
-            // Update position a long pathfinding route
-            transform.position += pathVector * Speed * Time.deltaTime;
+           
         }
     }
 }
