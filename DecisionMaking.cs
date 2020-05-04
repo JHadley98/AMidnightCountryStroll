@@ -7,7 +7,7 @@ public class DecisionMaking : MonoBehaviour
     public GameObject uiObjectLoose;
     public GameObject uiObjectWin;
     GameObject[] Sheep;
-    //public GameObject script;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -20,66 +20,43 @@ public class DecisionMaking : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //this is not being used but bits of code are incudled in other scripts
-
-        //if (Vector3.Distance(GameObject.Find("Player").transform.position, GameObject.Find("Sheep").transform.position) <= 7)
-        //{
-        //    chase(); //sheep following player
-        //}
-        //else
-        //{
-        //    sleep(); //default state
-        //}
-
-
+        
         foreach(GameObject sheep in Sheep)
         { 
             if (Vector3.Distance(sheep.transform.position, GameObject.Find("Player").transform.position) <= 3)//check for close distance between player and sheep
             {
-                loose();//when the sheep collide with player
+                loose();//when the sheep get too close to the player
                 break;
             }
             
             }
         
-
-        
+               
             if (Vector3.Distance(GameObject.Find("Player").transform.position, GameObject.Find("Path").transform.position) <= 4)
             {
-                win();
+                win(); //when player is at the end position
             }
         
 
     }
-
-    //void sleep()
-    //{
-    //    print("sleepy sheep");
-    //}   
-
-
-    //void chase()
-    //{
-    //    print("sheep chasing");
-    //gameObject.GetComponent<SheepControl>();?
-    //    }
+    
 
     void win()
     {
-        uiObjectWin.SetActive(true);
+        uiObjectWin.SetActive(true); //game is won
 
         new WaitForSeconds(10);
         Application.Quit();
-        //script.SetActive(false);
+        
     }
     
 
     void loose()
     {
-        uiObjectLoose.SetActive(true);
+        uiObjectLoose.SetActive(true); //game is lost
         new WaitForSeconds(10);
         Application.Quit();
-        //script.SetActive(false);
+        
     }
 
 
